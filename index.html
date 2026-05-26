@@ -274,7 +274,40 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:11px 1
         <p style="font-size:12px;color:var(--t2);text-align:center;">Para recargar saldo contacta al admin</p>
       </div>
       <div class="sec"><h3>COMPRAR LICENCIA</h3>
-        <div class="bgrid" id="buyGrid"></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+          <button class="ptab N on" id="bt-N" onclick="switchBuyPlan('N')">Normal</button>
+          <button class="ptab D" id="bt-D" onclick="switchBuyPlan('D')">Deluxe</button>
+          <button class="ptab V" id="bt-V" onclick="switchBuyPlan('V')">Volt</button>
+          <button class="ptab U" id="bt-U" onclick="switchBuyPlan('U')">Ultimate</button>
+        </div>
+        <div id="buy-N" class="bgrid">
+          <div class="bc N" id="bc-normal-1" onclick="selBuy('normal','1',1)"><div class="bct N">Normal</div><div class="bcd">1 Dia</div><div class="bcp"><span>$</span>1</div></div>
+          <div class="bc N" id="bc-normal-7" onclick="selBuy('normal','7',4)"><div class="bct N">Normal</div><div class="bcd">7 Dias</div><div class="bcp"><span>$</span>4</div></div>
+          <div class="bc N" id="bc-normal-15" onclick="selBuy('normal','15',8)"><div class="bct N">Normal</div><div class="bcd">15 Dias</div><div class="bcp"><span>$</span>8</div></div>
+          <div class="bc N" id="bc-normal-30" onclick="selBuy('normal','30',12)"><div class="bct N">Normal</div><div class="bcd">30 Dias</div><div class="bcp"><span>$</span>12</div></div>
+          <div class="bc N" id="bc-normal-60" onclick="selBuy('normal','60',18)"><div class="bct N">Normal</div><div class="bcd">2 Meses</div><div class="bcp"><span>$</span>18</div></div>
+        </div>
+        <div id="buy-D" class="bgrid" style="display:none;">
+          <div class="bc D" id="bc-deluxe-1" onclick="selBuy('deluxe','1',2)"><div class="bct D">Deluxe</div><div class="bcd">1 Dia</div><div class="bcp"><span>$</span>2</div></div>
+          <div class="bc D" id="bc-deluxe-7" onclick="selBuy('deluxe','7',6)"><div class="bct D">Deluxe</div><div class="bcd">7 Dias</div><div class="bcp"><span>$</span>6</div></div>
+          <div class="bc D" id="bc-deluxe-15" onclick="selBuy('deluxe','15',12)"><div class="bct D">Deluxe</div><div class="bcd">15 Dias</div><div class="bcp"><span>$</span>12</div></div>
+          <div class="bc D" id="bc-deluxe-30" onclick="selBuy('deluxe','30',18)"><div class="bct D">Deluxe</div><div class="bcd">30 Dias</div><div class="bcp"><span>$</span>18</div></div>
+          <div class="bc D" id="bc-deluxe-60" onclick="selBuy('deluxe','60',25)"><div class="bct D">Deluxe</div><div class="bcd">2 Meses</div><div class="bcp"><span>$</span>25</div></div>
+        </div>
+        <div id="buy-V" class="bgrid" style="display:none;">
+          <div class="bc V" id="bc-volt-1" onclick="selBuy('volt','1',3)"><div class="bct V">Volt</div><div class="bcd">1 Dia</div><div class="bcp"><span>$</span>3</div></div>
+          <div class="bc V" id="bc-volt-7" onclick="selBuy('volt','7',8)"><div class="bct V">Volt</div><div class="bcd">7 Dias</div><div class="bcp"><span>$</span>8</div></div>
+          <div class="bc V" id="bc-volt-15" onclick="selBuy('volt','15',15)"><div class="bct V">Volt</div><div class="bcd">15 Dias</div><div class="bcp"><span>$</span>15</div></div>
+          <div class="bc V" id="bc-volt-30" onclick="selBuy('volt','30',22)"><div class="bct V">Volt</div><div class="bcd">30 Dias</div><div class="bcp"><span>$</span>22</div></div>
+          <div class="bc V" id="bc-volt-60" onclick="selBuy('volt','60',30)"><div class="bct V">Volt</div><div class="bcd">2 Meses</div><div class="bcp"><span>$</span>30</div></div>
+        </div>
+        <div id="buy-U" class="bgrid" style="display:none;">
+          <div class="bc U" id="bc-ultimate-1" onclick="selBuy('ultimate','1',5)"><div class="bct U">Ultimate</div><div class="bcd">1 Dia</div><div class="bcp"><span>$</span>5</div></div>
+          <div class="bc U" id="bc-ultimate-7" onclick="selBuy('ultimate','7',12)"><div class="bct U">Ultimate</div><div class="bcd">7 Dias</div><div class="bcp"><span>$</span>12</div></div>
+          <div class="bc U" id="bc-ultimate-15" onclick="selBuy('ultimate','15',20)"><div class="bct U">Ultimate</div><div class="bcd">15 Dias</div><div class="bcp"><span>$</span>20</div></div>
+          <div class="bc U" id="bc-ultimate-30" onclick="selBuy('ultimate','30',30)"><div class="bct U">Ultimate</div><div class="bcd">30 Dias</div><div class="bcp"><span>$</span>30</div></div>
+          <div class="bc U" id="bc-ultimate-60" onclick="selBuy('ultimate','60',45)"><div class="bct U">Ultimate</div><div class="bcd">2 Meses</div><div class="bcp"><span>$</span>45</div></div>
+        </div>
         <button class="cbtn" id="cBtn" onclick="confirmar()" disabled>Selecciona un plan</button>
         <div class="em err" id="buyErr" style="display:none;"></div>
         <div class="em ok" id="buyOk" style="display:none;"></div>
@@ -423,22 +456,21 @@ function loadUser(){
   document.getElementById('uSaldo').textContent='$'+parseFloat(user.saldo||0).toFixed(2);
   renderBuyGrid();loadMisKeys();
 }
-function renderBuyGrid(){
-  var planes=[
-    {t:'normal',d:'1',p:1},{t:'normal',d:'7',p:4},{t:'normal',d:'15',p:8},{t:'normal',d:'30',p:12},{t:'normal',d:'60',p:18},
-    {t:'deluxe',d:'1',p:2},{t:'deluxe',d:'7',p:6},{t:'deluxe',d:'15',p:12},{t:'deluxe',d:'30',p:18},{t:'deluxe',d:'60',p:25},
-    {t:'volt',d:'1',p:3},{t:'volt',d:'7',p:8},{t:'volt',d:'15',p:15},{t:'volt',d:'30',p:22},{t:'volt',d:'60',p:30},
-    {t:'ultimate',d:'1',p:5},{t:'ultimate',d:'7',p:12},{t:'ultimate',d:'15',p:20},{t:'ultimate',d:'30',p:30},{t:'ultimate',d:'60',p:45}
-  ];
-  var html='';
-  for(var i=0;i<planes.length;i++){
-    var x=planes[i];var tc=TC[x.t];var lbl=x.d==='60'?'2 Meses':x.d==='1'?'1 Dia':x.d+' Dias';
-    html+='<div class="bc '+tc+'" id="bc-'+x.t+'-'+x.d+'" onclick="selBuy(\''+x.t+'\',\''+x.d+'\','+x.p+')">'
-      +'<div class="bct '+tc+'">'+TL[x.t]+'</div><div class="bcd">'+lbl+'</div>'
-      +'<div class="bcp"><span>$</span>'+x.p+'</div></div>';
-  }
-  document.getElementById('buyGrid').innerHTML=html;
+function switchBuyPlan(t){
+  ["N","D","V","U"].forEach(function(x){
+    var el=document.getElementById("buy-"+x);
+    var bt=document.getElementById("bt-"+x);
+    if(el)el.style.display="none";
+    if(bt)bt.classList.remove("on");
+  });
+  var show=document.getElementById("buy-"+t);
+  var btn2=document.getElementById("bt-"+t);
+  if(show)show.style.display="grid";
+  if(btn2)btn2.classList.add("on");
+  S.sel=null;
+  var cb=document.getElementById("cBtn");if(cb){cb.disabled=true;cb.textContent="Selecciona un plan";}
 }
+function renderBuyGrid(){switchBuyPlan("N");}
 function selBuy(tipo,dias,precio){
   document.querySelectorAll('.bc').forEach(function(c){c.classList.remove('sel');});
   var el=document.getElementById('bc-'+tipo+'-'+dias);if(el)el.classList.add('sel');
